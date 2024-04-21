@@ -7,5 +7,6 @@
 -- 💡 Перераховувати всі інші атрибути, такі як Number_malaria, не потрібно.
 -- 👉🏼 Для пошуку необхідних вбудованих функцій вам може знадобитися матеріал до теми 7.
 
-select year, makedate(year, 1) as first_day_year, curdate() as cur_date, year(curdate()) - year(makedate(year, 1)) as year_diff
+select year, makedate(year, 1) as first_day_year, curdate() as cur_date, 
+	timestampdiff(year, makedate(year, 1), curdate()) as year_diff
 from infectious_cases;

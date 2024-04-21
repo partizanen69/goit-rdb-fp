@@ -6,19 +6,18 @@ drop function if exists calc_year_diff;
 
 delimiter $$
 
-create function calc_year_diff(year int) returns int
+create function calc_year_diff(your_date date) returns int
 deterministic
 no sql
 begin
-  declare cur_year int;
-  SET cur_year = year(curdate());
-  return cur_year - year;
+  return timestampdiff(year, your_date, curdate());
 end $$
 
 delimiter ;
 
-select year, makedate(year, 1) as first_day_year, 
-curdate() as cur_date, 
-    calc_year_diff(year) as year_diff
+select year, 
+	makedate(year, 1) as first_day_year, 
+	curdate() as cur_date, 
+    calc_year_diff(makedate(year, 1)) as year_diff
 from infectious_cases;
 
