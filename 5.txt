@@ -1,0 +1,24 @@
+-- 5. Побудуйте власну функцію.
+-- Створіть і використайте функцію, що будує такий же атрибут, як і в попередньому завданні: функція має приймати 
+-- на вхід значення року, а повертати різницю в роках між поточною датою та датою, створеною з атрибута року (1996 рік → ‘1996-01-01’).
+
+drop function if exists calc_year_diff;
+
+delimiter $$
+
+create function calc_year_diff(year int) returns int
+deterministic
+no sql
+begin
+  declare cur_year int;
+  SET cur_year = year(curdate());
+  return cur_year - year;
+end $$
+
+delimiter ;
+
+select year, makedate(year, 1) as first_day_year, 
+curdate() as cur_date, 
+    calc_year_diff(year) as year_diff
+from infectious_cases;
+
